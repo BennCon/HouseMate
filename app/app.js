@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const glob = require( 'glob' )
+const mongoose = require('mongoose');
 
 
 app.use(express.static(path.join(__dirname, '/public')));
@@ -19,6 +20,13 @@ glob.sync( './routes/*.js' ).forEach( function( file ) {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+//DB Setup
+const url = ''
+mongoose.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+    if (err) return console.error(err);
+    console.log('Connected to Database');
+  })
 
 //Port
 const port = process.env.PORT || 5050;
