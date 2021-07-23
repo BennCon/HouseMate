@@ -4,8 +4,19 @@ const app = express();
 const path = require('path');
 const glob = require( 'glob' )
 const mongoose = require('mongoose');
-const { auth } = require('express-openid-connect');
 
+//Setup authentication/log in with auth0
+const { auth } = require('express-openid-connect');
+const config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: 'djkf4 4jtb4jh43cn 49jfn  nt4in94n3j 023u3h 3u3jh89jh',
+    baseURL: 'http://localhost:3000',
+    clientID: 'G87Fz1Qml6T2QpiRJCiwL1wP0l1LG7Z2',
+    issuerBaseURL: 'https://dev-w189a8dc.us.auth0.com'
+};
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
 
 
 app.use(express.static(path.join(__dirname, '/public')));
@@ -30,17 +41,6 @@ app.set('view engine', 'ejs');
 //     console.log('Connected to Database');
 //   })
 
-const config = {
-    authRequired: false,
-    auth0Logout: true,
-    secret: 'a long, randomly-generated string stored in env',
-    baseURL: 'http://localhost:3000',
-    clientID: 'G87Fz1Qml6T2QpiRJCiwL1wP0l1LG7Z2',
-    issuerBaseURL: 'https://dev-w189a8dc.us.auth0.com'
-};
-
-// auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
 
 //Port
 const port = process.env.PORT || 3000;

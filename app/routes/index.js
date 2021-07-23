@@ -4,7 +4,11 @@ app.set('view engine', 'ejs');
 
 // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
-    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    const isAuth = (req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+    res.render('index', {
+        isAuth: isAuth,
+        page: "Home"
+    });
   });
 
 
