@@ -1,4 +1,5 @@
 //Basic setup
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -10,10 +11,10 @@ const { auth } = require('express-openid-connect');
 const config = {
     authRequired: false,
     auth0Logout: true,
-    secret: 'djkf4 4jtb4jh43cn 49jfn  nt4in94n3j 023u3h 3u3jh89jh',
+    secret: process.env.AUTH0_CLIENT_SECRET,
     baseURL: 'http://localhost:3000',
-    clientID: 'G87Fz1Qml6T2QpiRJCiwL1wP0l1LG7Z2',
-    issuerBaseURL: 'https://dev-w189a8dc.us.auth0.com'
+    clientID: process.env.AUTH0_CLIENT_ID,
+    issuerBaseURL: process.env.AUTH0_DOMAIN
 };
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
@@ -35,7 +36,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //DB Setup
-const url = 'mongodb+srv://benconsterdineAdmin:ONtdg6uqXLxRbtQ1@cluster0.yyprz.mongodb.net/Users?retryWrites=true&w=majority'
+const url = process.env.MONGO_URL;
 mongoose.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
     if (err) return console.error(err);
     console.log('Connected to Database');
