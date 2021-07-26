@@ -10,9 +10,9 @@ app.get('/', (req, res) => {
     return res.redirect('/dashboard');
   } else {
       res.render('index', {
-        isAuth: isAuth,
         page: "Home"
       });
+      res.end();
   }
   });
 

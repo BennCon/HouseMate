@@ -11,9 +11,7 @@ app.get('/dashboard',  requiresAuth(), (req, res) => {
     
     //If user is in external user DB proceed, otherwise (first login) add them to external DB
     User.findOne({userID: currentUser.sub }).select("userID").lean().then(result => {
-        if (result) {
-            console.log("ya");
-        } else {
+        if (!result) {
             console.log("na");
             const new_user  = new User ({
                 name: currentUser.name,
@@ -26,7 +24,6 @@ app.get('/dashboard',  requiresAuth(), (req, res) => {
             })
         }
     });
-    console.log("3");
     res.send("Hello " + currentUser.name);
 
 
