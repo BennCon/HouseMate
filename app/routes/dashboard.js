@@ -5,28 +5,44 @@ const User = require('../models/User');
 app.set('view engine', 'ejs');
 const { requiresAuth } = require('express-openid-connect');
 
-app.get('/dashboard',  requiresAuth(), (req, res) => {
+//Route gets the ID of the logged in user and if needed, adds them to the external DB
+//i.e. on any user's first login, but ideally never again
+app.get('/dashboard',  requiresAuth(), (req, res, next) => {
     //JSON of details about current user
-    const currentUser = req.oidc.user;
+    res.locals.currentUser = req.oidc.user;
     
     //If user is in external user DB proceed, otherwise (first login) add them to external DB
-    User.findOne({userID: currentUser.sub }).select("userID").lean().then(result => {
+    User.findOne({userID: res.locals.currentUser.sub }).select("userID").lean().then(result => {
         if (!result) {
-            console.log("na");
             const new_user  = new User ({
-                name: currentUser.name,
-                userID: currentUser.sub
+                name: res.locals.currentUser.name,
+                userID: res.locals.currentUser.sub,
+                house: 1 
             });
-        
+    
             new_user.save((error, document) => {
                 if (error) console.log(error);
                 console.log(document);
             })
         }
     });
-    res.send("Hello " + currentUser.name);
+    
+    //Updates the current user object to refer to external database
+    User.findOne({userID: res.locals.currentUser.sub}, (err,obj) => {
+        res.locals.currentUser = obj;
+        next();
+    });
 
 
 });
+
+//House isn't object of the current user cause wrong DB, really auth0 DB should only be for Auth, external for everything else includining basics like name
+app.get('/dashboard', requiresAuth(), (req, res, next) => {
+    res.render('dashboard', {
+        page: "Dashboard",
+        house: res.locals.currentUser.house
+    });
+});
+
 
 module.exports = app;

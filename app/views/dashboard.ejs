@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+</head>
+
+<body>
+    <h1>HouseMate</h1>
+    <h2>Dashboard</h2>
+
+    <%  if (house == null) {
+        %><p>You haven't made a house yet</p>
+        <a href="/index">New House</a> 
+    <% } else {
+        %><%- house %>
+    <%}%>
+</body>
+
+</html>
