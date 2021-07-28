@@ -4,6 +4,8 @@ const { BulkWriteError } = require('mongodb');
 const User = require('../models/User');
 app.set('view engine', 'ejs');
 const { requiresAuth } = require('express-openid-connect');
+// const crypto = require("crypto"); //for generating random HouseID
+// crypto.randomBytes(20).toString('hex') //Generates random string
 
 //Route gets the ID of the logged in user and if needed, adds them to the external DB
 //i.e. on any user's first login, but ideally never again
@@ -17,7 +19,7 @@ app.get('/dashboard',  requiresAuth(), (req, res, next) => {
             const new_user  = new User ({
                 name: res.locals.currentUser.name,
                 userID: res.locals.currentUser.sub,
-                house: 1 
+                house: null
             });
     
             new_user.save((error, document) => {
