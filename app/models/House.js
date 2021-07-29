@@ -9,4 +9,4 @@ const houseSchema = new Schema({
     bills: Array 
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('House', houseSchema);
