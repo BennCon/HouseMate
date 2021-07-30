@@ -3,15 +3,14 @@
 <head>
     <%- include("./partials/head") %>
 </head>
-
+<!-- 
 <script>
     persList = [];
     function newPerson() {
         persList.push(document.getElementById("new_pers").value);
         console.log(persList);
     }
-</script>
-
+</script> -->
 
 
 <body>
@@ -20,9 +19,8 @@
     <form action="/house/submit" method="post">
         <label for="name">House name:</label><br>
         <input type="text" id="name" name="name"><br>
-        <label>Add HouseMates</label>
-        <input id="new_pers" type="text" name="pers"><button type="button" onclick="newPerson()">Add</button>
-        <p id="personList"></p>
+        <label>HouseMates: (comma separated)</label><br>
+        <input type="text" id="housemates" name="housemates" placeholder="name1,name2,name3"><br>
         <input type="submit" value="Submit">
       </form>
       

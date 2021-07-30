@@ -4,8 +4,6 @@ const { BulkWriteError } = require('mongodb');
 const User = require('../models/User');
 app.set('view engine', 'ejs');
 const { requiresAuth } = require('express-openid-connect');
-// const crypto = require("crypto"); //for generating random HouseID
-// crypto.randomBytes(20).toString('hex') //Generates random string
 
 //Route gets the logged in user from the external user DB
 app.get('/dashboard',  requiresAuth(), (req, res, next) => {
