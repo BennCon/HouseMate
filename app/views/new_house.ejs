@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("./partials/head") %>
+</head>
+
+<script>
+    persList = [];
+    function newPerson() {
+        persList.push(document.getElementById("new_pers").value);
+        console.log(persList);
+    }
+</script>
+
+
+
+<body>
+    <h1>HouseMate</h1>
+    <h2>New House</h2>
+    <form action="/house/submit" method="post">
+        <label for="name">House name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label>Add HouseMates</label>
+        <input id="new_pers" type="text" name="pers"><button type="button" onclick="newPerson()">Add</button>
+        <p id="personList"></p>
+        <input type="submit" value="Submit">
+      </form>
+      
+</body>
+<!-- <script type="text/javascript" src="../js/new_house_form.js"></script> -->
+
+</html>

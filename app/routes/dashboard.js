@@ -7,10 +7,9 @@ const { requiresAuth } = require('express-openid-connect');
 // const crypto = require("crypto"); //for generating random HouseID
 // crypto.randomBytes(20).toString('hex') //Generates random string
 
-//Route gets the ID of the logged in user and if needed, adds them to the external DB
-//i.e. on any user's first login, but ideally never again
+//Route gets the logged in user from the external user DB
 app.get('/dashboard',  requiresAuth(), (req, res, next) => {
-    //JSON of details about current user
+    //JSON of details about current user from Auth0 DB
     res.locals.currentUser = req.oidc.user;
     
     //If user is in external user DB proceed, otherwise (first login) add them to external DB
@@ -38,7 +37,6 @@ app.get('/dashboard',  requiresAuth(), (req, res, next) => {
 
 });
 
-//House isn't object of the current user cause wrong DB, really auth0 DB should only be for Auth, external for everything else includining basics like name
 app.get('/dashboard', requiresAuth(), (req, res, next) => {
     res.render('dashboard', {
         page: "Dashboard",
