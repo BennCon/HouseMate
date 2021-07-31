@@ -14,7 +14,7 @@ const crypto = require("crypto"); //for generating random HouseID
 //Render form for new house
 app.get('/house/new', requiresAuth(), (req, res, next) => {
     //If user already has a house, redirect to dashboard
-    User.findOne({userID: req.oidc.user.sub, house: !null}).select("house").lean().then(result => {
+    User.findOne({userID: req.oidc.user.sub, house: {$ne: null}}).select("house").lean().then(result => {
         if (result) {
             return res.redirect('/dashboard');
         } else {
